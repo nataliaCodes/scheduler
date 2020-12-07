@@ -3,5 +3,25 @@ import React from "react";
 import "components/Button.scss";
 
 export default function Button(props) {
-   return <></>;
+  let buttonClass = "button";
+
+  //set button class conditionally - props are where we render the Button element (either storybook or the App.js)
+  if(props.confirm) {
+    buttonClass += " button--confirm"
+  }
+
+  if(props.danger) {
+    buttonClass += " button--danger"
+  }
+
+  //we pass the conditional class to the element to be rendered
+  return (
+  <button 
+    className={buttonClass}
+    onClick={props.onClick}
+    disabled={props.disabled}
+  >
+    {props.children}
+  </button>
+  );
 }

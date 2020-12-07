@@ -11,8 +11,11 @@ storiesOf("Button", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
   })
+  //this just takes the basic button class
   .add("Base", () => <Button>Base</Button>)
+  //this gets appended the " button--confirm" class
   .add("Confirm", () => <Button confirm>Confirm</Button>)
+  //this gets appended the " button--danger" class
   .add("Danger", () => <Button danger>Cancel</Button>)
   .add("Clickable", () => (
     <Button onClick={action("button-clicked")}>Clickable</Button>
