@@ -4,12 +4,8 @@ import InterviewerListItem from 'components/InterviewerListItem'
 
 export default function InterviewerList(props) {
 
-  console.log('props of list.js', props.interviewers)
-
   const interviewersList = props.interviewers.map(interviewer => {
-    
-    console.log('inside map', interviewer)
-    
+
     return (
 
     <InterviewerListItem 
@@ -18,7 +14,7 @@ export default function InterviewerList(props) {
       name={interviewer.name} 
       avatar={interviewer.avatar} 
       setInterviewer={() => props.setInterviewer(interviewer.id)} 
-      selected={props.interviewer === interviewer.id}
+      selected={props.value === interviewer.id}
     />
     )
   })

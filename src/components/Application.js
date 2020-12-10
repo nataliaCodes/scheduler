@@ -4,17 +4,77 @@ import "components/Application.scss";
 
 // import DayListItem from "components/DayListItem";
 import DayList from "components/DayList";
+import "components/Appointment";
+import Appointment from "components/Appointment";
+
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Jack Napier",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "1.30pm",
+    interview: {
+      student: "Bruce Wayne",
+      interviewer: {
+        id: 1,
+        name: "Tori Malcolm",
+        avatar: "https://i.imgur.com/Nmx0Qxo.png",
+      }
+    }
+  },
+  {
+    id: 4,
+    time: "1pm",
+    interview: {
+      student: "Selina Kyle",
+      interviewer: {
+        id: 1,
+        name: "Mildred Nazir",
+        avatar: "https://i.imgur.com/T2WwVfS.png",
+      }
+    }
+  },
+  {
+    id: 5,
+    time: "2pm",
+    interview: {
+      student: "Clark Kent",
+      interviewer: {
+        id: 1,
+        name: "Cohana Roy",
+        avatar: "https://i.imgur.com/FK8V841.jpg",
+      }
+    }
+  },
+  {
+    id: "last",
+    time: "5pm"
+  }
+];
 
 export default function Application(props) {
 
   const [ day, setDay ] = useState("Monday");
 
-  const handleOnClick = (selectedDay) => {
-    console.log(selectedDay)
-    setDay(selectedDay);
+  const handleOnClick = (day) => {
+    console.log(day)
+    setDay(day);
   }
 
-  
   const days = [
     {
       id: 1,
@@ -32,6 +92,8 @@ export default function Application(props) {
       spots: 0,
     },
   ];
+
+  const scheduleList = appointments.map(appointment => <Appointment key={appointment.id} {...appointment}/>)
 
   return (
     <main className="layout">
@@ -56,7 +118,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {scheduleList}
       </section>
     </main>
   );
