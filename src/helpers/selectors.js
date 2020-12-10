@@ -16,3 +16,19 @@ export function getAppointmentsForDay(state, day) {
   return appointments.map(id => state.appointments[id]);
 
 }
+
+export function getInterview(state, interview) {
+
+  const result = {};
+
+  if (!interview){
+    return null;
+  }
+
+  const interviewerId = interview.interviewer;
+  result.student = interview.student;
+  result.interviewer = state.interviewers[interviewerId];
+
+
+  return result;
+}
