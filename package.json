@@ -46,7 +46,8 @@
     "watchPathIgnorePatterns": [
       "<rootDir>/node_modules/",
       "<rootDir>/.git/"
-    ]
+    ],
+    "verbose": false
   },
   "proxy": "http://localhost:8001"
 }
