@@ -34,11 +34,7 @@ export default function Application(props) {
 
   //to save a new interview
   //passed to the appointment component as props
-  function bookInterview(id, interview) {
-    console.log('id :', id);
-    console.log('interview :', interview);
-
-
+  const bookInterview = (id, interview) => {
 
     //updates the specific state appointment
     const appointment = {
@@ -58,8 +54,33 @@ export default function Application(props) {
       .then(() => {
         //updates state with the new appointment
         setState({ ...state, appointments });
-        }
-      )
+      })
+      .catch(error => console.log(error))
+      .finally(console.log('Put request done'))
+
+  }
+
+  //handle deletion of interview
+  //passed as props to appointment component
+  const cancelInterview = (id) => {
+
+    //updates interview of specific appointment to null
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    //async => need to return
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => {
+        setState({ ...state, appointments });
+      })
       .catch(error => console.log(error))
       .finally(console.log('Put request done'))
 
@@ -86,6 +107,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     )
   })

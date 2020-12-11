@@ -13,6 +13,7 @@ const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
 const SAVING = "SAVING";
+const DELETING = "DELETING";
 
 export default function Appointment(props) {
 
@@ -22,7 +23,7 @@ export default function Appointment(props) {
   );
 
   //passed to the form component as props
-  function save(name, interviewer) {
+  const save = (name, interviewer) => {
     
     //creates the object needed by the form
     const interview = {
@@ -36,8 +37,17 @@ export default function Appointment(props) {
     props.bookInterview(props.id, interview)
       //.then is needed because bookInterview makes an async axios call
       //transition to SHOW so that the appointment stays on the page
-      .then(response => transition(SHOW))
+      .then(() => transition(SHOW))
 
+  }
+
+  //passed to show view as props
+  const deleteInterview = () => {
+
+    transition(DELETING)
+
+    props.cancelInterview(props.id)
+    .then(() => transition(EMPTY))
   }
 
   return (
@@ -49,10 +59,12 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
+          onDelete={deleteInterview}
         />
       )}
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back()} onSave={save} />}
       {mode === SAVING && <Status message="Saving..."/>}
+      {mode === DELETING && <Status message="Deleting..."/>}
     </article>
   )
 
