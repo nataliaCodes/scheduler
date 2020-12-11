@@ -32,6 +32,26 @@ export default function Application(props) {
     interviewers: {}
   });
 
+  //passed to the appointment component as props
+  function bookInterview(id, interview) {
+    
+    //updates the specific state appointment
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+
+    //updates state appointments
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    //updates state with the new appointment
+    setState({...state, appointments});
+
+  }
+
   //handle the day selection
   const setDay = day => setState({ ...state, day });
   const handleOnClick = (day) => setDay(day);
@@ -39,6 +59,7 @@ export default function Application(props) {
   //extract appointments according to day displayed
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
+  //extract appointment details to display
   const scheduleList = dailyAppointments.map(appointment => {
 
     //getInterview, getInterviewers -> selectors - passed as props to appointment component
@@ -51,6 +72,7 @@ export default function Application(props) {
         {...appointment} 
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     )
   })
@@ -71,7 +93,7 @@ export default function Application(props) {
     
     })
 
-  }, []); //<-- executes only one because dependency array is empty
+  }, []); //<-- executes only once because dependency array is empty
 
   return (
     <main className="layout">
