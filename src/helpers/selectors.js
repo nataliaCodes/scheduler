@@ -21,7 +21,7 @@ export function getAppointmentsForDay(state, day) {
   //extract appointments array
   const foundAppointments = dayFound.appointments
 
-  //return the needed object
+  //return array of appointments objects
   return foundAppointments.map(id => state.appointments[id]);
 
 }
@@ -33,14 +33,10 @@ export function getInterviewersForDay(state, day) {
     return []
   }
 
-  //extract appointments array
+  //extract interviewers array
   const foundInterviewers = dayFound.interviewers
 
-  const result = foundInterviewers.map(id => state.interviewers[id])
-  console.log('result :', result);
-
-
-  //return the needed object
+  //return array of interviewers objects
   return foundInterviewers.map(id => state.interviewers[id]);
 }
 

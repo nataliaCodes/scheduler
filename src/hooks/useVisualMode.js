@@ -13,6 +13,7 @@ export default function useVisualMode(initialMode) {
     setHistory([...history, newMode])
 
     //if replace is true, slice the last value and add the new value instead of it
+    //slice returns an array => extract the value before placing it into new history array
     if(replace) {
       setHistory([history.slice(0, history.length -1)[0], newMode])
     }
@@ -34,5 +35,6 @@ export default function useVisualMode(initialMode) {
 
   }
 
+  //these get extracted in Appointment - index.js
   return { mode, transition, back }
 }

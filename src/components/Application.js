@@ -38,9 +38,10 @@ export default function Application(props) {
   
   //extract appointments according to day displayed
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+
   const scheduleList = dailyAppointments.map(appointment => {
 
-    //getInterview -> selectors
+    //getInterview, getInterviewers -> selectors - passed as props to appointment component
     const interview = getInterview(state, appointment.interview)
     const interviewers = getInterviewersForDay(state, state.day)
 
