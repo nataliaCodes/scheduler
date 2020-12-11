@@ -32,13 +32,15 @@ export default function Application(props) {
     interviewers: {}
   });
 
-  
+  //handle the day selection
   const setDay = day => setState({ ...state, day });
-  
   const handleOnClick = (day) => setDay(day);
   
+  //extract appointments according to day displayed
   const dailyAppointments = getAppointmentsForDay(state, state.day);
   const scheduleList = dailyAppointments.map(appointment => {
+
+    //getInterview -> selectors
     const interview = getInterview(state, appointment.interview)
 
     return (
@@ -50,20 +52,23 @@ export default function Application(props) {
     )
   })
 
-  // const setDays = days => setState(prev => ({ ...prev, days }));
-
   useEffect(() => {
 
+    //promise all to get all results at the same time
     Promise.all([
       axios.get('api/days'),
       axios.get('api/appointments'),
       axios.get('api/interviewers')
+
+      //work with all results at the same time
     ]).then(all => {
+
+      //spread the state object then assign the returned axios values to the specific keys
       setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
     
     })
 
-  }, []);
+  }, []); //<-- executes only one because dependency array is empty
 
   return (
     <main className="layout">
@@ -89,6 +94,8 @@ export default function Application(props) {
       </section>
       <section className="schedule">
         {scheduleList}
+
+        {/* display the last divider on the page */}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
