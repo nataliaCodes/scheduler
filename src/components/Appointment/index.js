@@ -3,6 +3,7 @@ import Header from "./Header"
 import Show from "./Show"
 import Empty from "./Empty"
 import Form from "./Form"
+import Status from "./Status"
 import useVisualMode from "../../hooks/useVisualMode"
 
 import "./styles.scss";
@@ -11,6 +12,7 @@ import "./styles.scss";
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
+const SAVING = "SAVING";
 
 export default function Appointment(props) {
 
@@ -28,11 +30,14 @@ export default function Appointment(props) {
       interviewer
     };
 
-    //calls function from Application.js
-    props.bookInterview(props.id, interview);
+    transition(SAVING);
 
-    //transition to SHOW so that the appointment stays on the page
-    transition(SHOW);
+    //calls function from Application.js
+    props.bookInterview(props.id, interview)
+      //.then is needed because bookInterview makes an async axios call
+      //transition to SHOW so that the appointment stays on the page
+      .then(response => transition(SHOW))
+
   }
 
   return (
@@ -47,6 +52,7 @@ export default function Appointment(props) {
         />
       )}
       {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back()} onSave={save} />}
+      {mode === SAVING && <Status message="Saving..."/>}
     </article>
   )
 

@@ -32,9 +32,14 @@ export default function Application(props) {
     interviewers: {}
   });
 
+  //to save a new interview
   //passed to the appointment component as props
   function bookInterview(id, interview) {
-    
+    console.log('id :', id);
+    console.log('interview :', interview);
+
+
+
     //updates the specific state appointment
     const appointment = {
       ...state.appointments[id],
@@ -47,15 +52,23 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    //updates state with the new appointment
-    setState({...state, appointments});
+    //async => need to return
+    return axios
+      .put(`/api/appointments/${id}`, { interview }) //<-- make sure to wrap the data transmitted in an object!
+      .then(() => {
+        //updates state with the new appointment
+        setState({ ...state, appointments });
+        }
+      )
+      .catch(error => console.log(error))
+      .finally(console.log('Put request done'))
 
   }
 
   //handle the day selection
   const setDay = day => setState({ ...state, day });
   const handleOnClick = (day) => setDay(day);
-  
+
   //extract appointments according to day displayed
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -67,9 +80,9 @@ export default function Application(props) {
     const interviewers = getInterviewersForDay(state, state.day)
 
     return (
-      <Appointment 
-        key={appointment.id} 
-        {...appointment} 
+      <Appointment
+        key={appointment.id}
+        {...appointment}
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
@@ -89,8 +102,8 @@ export default function Application(props) {
     ]).then(all => {
 
       //spread the state object then assign the returned axios values to the specific keys
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}))
-    
+      setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
+
     })
 
   }, []); //<-- executes only once because dependency array is empty
