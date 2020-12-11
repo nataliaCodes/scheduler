@@ -82,7 +82,7 @@ export default function Application(props) {
         setState({ ...state, appointments });
       })
       .catch(error => console.log(error))
-      .finally(console.log('Put request done'))
+      .finally(console.log('Delete request done'))
 
   }
 
