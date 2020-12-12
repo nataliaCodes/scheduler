@@ -46,28 +46,21 @@ export default function useApplicationData() {
   //handle the day selection
   const setDay = day => setState({ ...state, day });
 
-  const getSpotsRemaining = () => {
+  const getSpotsForDay = () => {
     if (state.days) {
-      console.log('state.days :', state.days);
       const dayFound = state.days.find(obj => obj.name === state.day);
+      const dayId = dayFound.id;
+      // const name = dayFound.name;
+      const currentSpots = dayFound.spots;
+      console.log('currentSpots :', currentSpots);
       console.log('dayFound :', dayFound);
-      // return dayFound.spots;
+      return { dayId, currentSpots };
     }
   }
 
-  console.log('getSpotsRemaining :', getSpotsRemaining());
-  // const spotsRemaining= dayFound.spots;
-
-  // console.log('dayFound appts :', dayFound.appointments);
-  // const dayAppointments = dayFound.appointments.map(id => state.appointments[id])
-  // console.log('dayAppointments :', dayAppointments);
-
-  // const filledSpots = dayAppointments.filter(appointment => appointment.interview !== null)
-  // console.log('filledSpots :', filledSpots);
-
   //to save a new interview
   //passed to the appointment component as props
-  const bookInterview = (id, interview) => {
+  const bookInterview = (id, interview, spotsChange) => {
 
     //updates the specific state appointment
     const appointment = {
@@ -81,15 +74,31 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    //async => need to return
-    return axios
-      .put(`/api/appointments/${id}`, { interview }) //<-- make sure to wrap the data transmitted in an object!
-      .then(() => {
-        //updates state with the new appointment
-        setState({ ...state, appointments })
-      })
-      .catch(error => console.log(error))
-      .finally(console.log('Put request done'))
+    if (spotsChange) {
+      const { dayId, currentSpots } = getSpotsForDay();
+      const spots = currentSpots - 1;
+      console.log('spots :', spots);
+    }
+
+
+    return new Promise((resolve, reject) => {
+      axios.put(`/api/appointments/${id}`, { interview })
+        .then(function (response) {
+          setState({ ...state, appointments })
+          resolve();
+        })
+        .catch(function (error) {
+          console.log(error);
+          reject();
+        })
+        .finally(console.log('Put request done'))
+    });
+    // return Promise.all([
+    //   axios.put(`/api/appointments/${id}`, { interview }),
+    //   axios.put(`/api/days/${dayId}`, { spots })
+    // ]).then(all => console.log(all))
+    //   .catch(error => console.log(error))
+    //   .finally(console.log('Put requests done'))
 
   }
 
@@ -108,14 +117,23 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    //async => need to return
-    return axios
-      .delete(`/api/appointments/${id}`)
-      .then(() => {
-        setState({ ...state, appointments });
-      })
-      .catch(error => console.log(error))
-      .finally(console.log('Delete request done'))
+    const { dayId, currentSpots } = getSpotsForDay();
+    const spots = currentSpots + 1;
+    console.log('spots :', spots);
+    console.log('state spots :', state.days[dayId]);
+
+    return new Promise((resolve, reject) => {
+      axios.delete(`/api/appointments/${id}`)
+        .then(function (response) {
+          setState({ ...state, appointments })
+          resolve();
+        })
+        .catch(function (error) {
+          console.log(error);
+          reject();
+        })
+        .finally(console.log('Put request done'))
+    });
 
   }
 

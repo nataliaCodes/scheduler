@@ -37,7 +37,7 @@ export default function Appointment(props) {
       interviewer
     };
 
-    transition(SAVING);
+    transition(SAVING, true);
 
     //calls function from useApplicationData.js
     props.bookInterview(props.id, interview)
@@ -51,13 +51,17 @@ export default function Appointment(props) {
   //passed to show view as props
   const deleteInterview = () => {
 
-    transition(CONFIRM)
+    // transition(CONFIRM)
 
     transition(DELETING, true)
 
     props.cancelInterview(props.id)
     .then(() => transition(EMPTY))
-    .catch(error => transition(ERROR_DELETE, true))
+    .catch(error => {
+      console.log('this is the error :', error);
+      transition(ERROR_DELETE, true)
+
+    })
   }
 
   return (
@@ -73,13 +77,45 @@ export default function Appointment(props) {
           onEdit={() => transition(EDIT)}
         />
       )}
-      {mode === CREATE && <Form interviewers={props.interviewers} onCancel={() => back()} onSave={save} />}
-      {mode === EDIT && <Form name={props.interview.student} interviewer={props.interview.interviewer.id} interviewers={props.interviewers} onChange={() => props.onChange()} onKeyUp={() => props.onKeyUp()} onCancel={() => back()} onSave={save}></Form>}
+      {mode === CREATE && (
+        <Form 
+          interviewers={props.interviewers} 
+          onCancel={() => back()} 
+          onSave={save}
+        />
+      )}
+      {mode === EDIT && (
+        <Form 
+          name={props.interview.student} 
+          interviewer={props.interview.interviewer.id} 
+          interviewers={props.interviewers} 
+          onChange={() => props.onChange()} 
+          onKeyUp={() => props.onKeyUp()} 
+          onCancel={() => back()} 
+          onSave={save}
+        />
+      )}
       {mode === SAVING && <Status message="Saving..."/>}
       {mode === DELETING && <Status message="Deleting..."/>}
-      {mode === CONFIRM && <Confirm message="Are you sure you would like to delete?" onConfirm={deleteInterview} onCancel={() => back()}  />}
-      {mode === ERROR_SAVE && <Error message="Error saving entry"/>}
-      {mode === ERROR_DELETE && <Error message="Error deleting entry"/>}
+      {mode === CONFIRM && (
+        <Confirm 
+          message="Are you sure you would like to delete?" 
+          onConfirm={deleteInterview} 
+          onCancel={() => back()}
+        />
+      )}
+      {mode === ERROR_SAVE && (
+        <Error 
+          message="Error saving entry" 
+          onClose={() => back()}
+        />
+      )}
+      {mode === ERROR_DELETE && (
+        <Error 
+          message="Error deleting entry" 
+          onClose={() => back()}
+        />
+      )}
     </article>
   )
 
