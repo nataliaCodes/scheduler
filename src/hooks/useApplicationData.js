@@ -46,6 +46,25 @@ export default function useApplicationData() {
   //handle the day selection
   const setDay = day => setState({ ...state, day });
 
+  const getSpotsRemaining = () => {
+    if (state.days) {
+      console.log('state.days :', state.days);
+      const dayFound = state.days.find(obj => obj.name === state.day);
+      console.log('dayFound :', dayFound);
+      // return dayFound.spots;
+    }
+  }
+
+  console.log('getSpotsRemaining :', getSpotsRemaining());
+  // const spotsRemaining= dayFound.spots;
+
+  // console.log('dayFound appts :', dayFound.appointments);
+  // const dayAppointments = dayFound.appointments.map(id => state.appointments[id])
+  // console.log('dayAppointments :', dayAppointments);
+
+  // const filledSpots = dayAppointments.filter(appointment => appointment.interview !== null)
+  // console.log('filledSpots :', filledSpots);
+
   //to save a new interview
   //passed to the appointment component as props
   const bookInterview = (id, interview) => {
@@ -67,7 +86,7 @@ export default function useApplicationData() {
       .put(`/api/appointments/${id}`, { interview }) //<-- make sure to wrap the data transmitted in an object!
       .then(() => {
         //updates state with the new appointment
-        setState({ ...state, appointments });
+        setState({ ...state, appointments })
       })
       .catch(error => console.log(error))
       .finally(console.log('Put request done'))
@@ -100,5 +119,5 @@ export default function useApplicationData() {
 
   }
 
-  return { state, setDay, bookInterview, cancelInterview}
+  return { state, setDay, bookInterview, cancelInterview }
 }

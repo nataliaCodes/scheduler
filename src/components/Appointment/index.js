@@ -39,7 +39,7 @@ export default function Appointment(props) {
 
     transition(SAVING);
 
-    //calls function from Application.js
+    //calls function from useApplicationData.js
     props.bookInterview(props.id, interview)
       //.then is needed because bookInterview makes an async axios call
       //transition to SHOW so that the appointment stays on the page
