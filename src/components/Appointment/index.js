@@ -29,7 +29,7 @@ export default function Appointment(props) {
   );
 
   //passed to the form component as props
-  const save = (name, interviewer) => {
+  const save = (name, interviewer, spotsChange) => {
     
     //creates the object needed by the form
     const interview = {
@@ -40,7 +40,7 @@ export default function Appointment(props) {
     transition(SAVING, true);
 
     //calls function from useApplicationData.js
-    props.bookInterview(props.id, interview)
+    props.bookInterview(props.id, interview, spotsChange)
       //.then is needed because bookInterview makes an async axios call
       //transition to SHOW so that the appointment stays on the page
       .then(() => transition(SHOW))

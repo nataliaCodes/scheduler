@@ -46,21 +46,22 @@ export default function useApplicationData() {
   //handle the day selection
   const setDay = day => setState({ ...state, day });
 
-  const getSpotsForDay = () => {
-    if (state.days) {
-      const dayFound = state.days.find(obj => obj.name === state.day);
-      const dayId = dayFound.id;
-      // const name = dayFound.name;
-      const currentSpots = dayFound.spots;
-      console.log('currentSpots :', currentSpots);
-      console.log('dayFound :', dayFound);
-      return { dayId, currentSpots };
-    }
+  //extracts number of available spots for selected day
+  const getSpotsForDay = (day, days, appointments) => {
+
+    //finds the currently selected day
+    const daySelected = days.find(obj => obj.name === day);
+
+    //gets the appointment objects for the day
+    const dayAppointments = daySelected.appointments.map(id => appointments[id]);
+
+    //calculated number of remaining spots based on the appointments that have the interview set to null
+    return dayAppointments.filter(appointment => appointment.interview === null).length;
   }
 
   //to save a new interview
   //passed to the appointment component as props
-  const bookInterview = (id, interview, spotsChange) => {
+  const bookInterview = (id, interview) => {
 
     //updates the specific state appointment
     const appointment = {
@@ -74,17 +75,23 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    if (spotsChange) {
-      const { dayId, currentSpots } = getSpotsForDay();
-      const spots = currentSpots - 1;
-      console.log('spots :', spots);
-    }
+    //get number of spots for specific day
+    const spots = getSpotsForDay(state.day, state.days, appointments);
 
+    //update the specific day's number of spots
+    //value gets set into state within the axios call below
+    const days = state.days.map(day => {
+      if(day.name === state.day) {
+        return {...day, spots}
+      }
+
+      return day;
+    })
 
     return new Promise((resolve, reject) => {
       axios.put(`/api/appointments/${id}`, { interview })
         .then(function (response) {
-          setState({ ...state, appointments })
+          setState({ ...state, appointments, days })
           resolve();
         })
         .catch(function (error) {
@@ -93,12 +100,6 @@ export default function useApplicationData() {
         })
         .finally(console.log('Put request done'))
     });
-    // return Promise.all([
-    //   axios.put(`/api/appointments/${id}`, { interview }),
-    //   axios.put(`/api/days/${dayId}`, { spots })
-    // ]).then(all => console.log(all))
-    //   .catch(error => console.log(error))
-    //   .finally(console.log('Put requests done'))
 
   }
 
@@ -117,15 +118,20 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
-    const { dayId, currentSpots } = getSpotsForDay();
-    const spots = currentSpots + 1;
-    console.log('spots :', spots);
-    console.log('state spots :', state.days[dayId]);
+    const spots = getSpotsForDay(state.day, state.days, appointments);
+
+    const days = state.days.map(day => {
+      if(day.name === state.day) {
+        return {...day, spots}
+      }
+
+      return day;
+    })
 
     return new Promise((resolve, reject) => {
       axios.delete(`/api/appointments/${id}`)
         .then(function (response) {
-          setState({ ...state, appointments })
+          setState({ ...state, appointments, days })
           resolve();
         })
         .catch(function (error) {
