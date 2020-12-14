@@ -29,7 +29,7 @@ export default function Appointment(props) {
   );
 
   //passed to the form component as props
-  const save = (name, interviewer, spotsChange) => {
+  const save = (name, interviewer) => {
     
     //creates the object needed by the form
     const interview = {
@@ -37,13 +37,16 @@ export default function Appointment(props) {
       interviewer
     };
 
+    //transition to saving view, true -> allows us to go directly to show mode
     transition(SAVING, true);
 
     //calls function from useApplicationData.js
-    props.bookInterview(props.id, interview, spotsChange)
-      //.then is needed because bookInterview makes an async axios call
+    props.bookInterview(props.id, interview)
+
       //transition to SHOW so that the appointment stays on the page
       .then(() => transition(SHOW))
+
+      //true allows us to go back to show mode directly
       .catch(error => transition(ERROR_SAVE, true))
 
   }
@@ -51,7 +54,7 @@ export default function Appointment(props) {
   //passed to show view as props
   const deleteInterview = () => {
 
-    // transition(CONFIRM)
+    transition(CONFIRM)
 
     transition(DELETING, true)
 
