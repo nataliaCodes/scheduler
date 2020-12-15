@@ -71,7 +71,7 @@ function Appointment(props) {
   }
 
   return (
-    <article className="appointment">
+    <article data-testid="appointment" className="appointment">
       <Header time={props.time} />
       {/* show the components conditionally based on the visual mode hook */}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
