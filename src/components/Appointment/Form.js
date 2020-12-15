@@ -33,10 +33,12 @@ export default function Form(props) {
 
   const handleSave = () => {
 
-      if (name === "") {
-        setError("Student name cannot be blank");
-        return;
-      }
+    if (name === "") {
+      setError("Student name cannot be blank");
+      return;
+    }
+
+    setError("")
 
     //comes from appointment component
     props.onSave(name, interviewer)
@@ -53,17 +55,17 @@ export default function Form(props) {
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            data-testid= "student-name-input"
+            data-testid="student-name-input"
           /*
             This must be a controlled component
           */
           />
         </form>
         <section className="appointment__validation">{error}</section>
-        <InterviewerList 
-          interviewers={props.interviewers} 
-          value={interviewer} 
-          setInterviewer={handleInterviewer} 
+        <InterviewerList
+          interviewers={props.interviewers}
+          value={interviewer}
+          setInterviewer={handleInterviewer}
         />
       </section>
       <section className="appointment__card-right">
