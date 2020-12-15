@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Header from "./Header"
 import Show from "./Show"
 import Empty from "./Empty"
@@ -7,6 +9,7 @@ import Status from "./Status"
 import Confirm from "./Confirm"
 import Error from "./Error"
 import useVisualMode from "../../hooks/useVisualMode"
+
 
 import "./styles.scss";
 
@@ -21,7 +24,7 @@ const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
 const ERROR_DELETE = "ERROR_DELETE";
 
-export default function Appointment(props) {
+function Appointment(props) {
 
   //set the initial mode conditionally based on props.interview value
   const { mode, transition, back } = useVisualMode(
@@ -123,3 +126,9 @@ export default function Appointment(props) {
   )
 
 }
+
+Appointment.propTypes = {
+  interviewers: PropTypes.array.isRequired
+};
+
+export default Appointment;
