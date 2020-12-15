@@ -128,7 +128,7 @@ function Appointment(props) {
 }
 
 Appointment.propTypes = {
-  interviewers: PropTypes.array.isRequired
+  interviewers: PropTypes.array
 };
 
 export default Appointment;
