@@ -81,8 +81,8 @@ export default function useApplicationData() {
     //update the specific day's number of spots
     //value gets set into state within the axios call below
     const days = state.days.map(day => {
-      if(day.name === state.day) {
-        return {...day, spots}
+      if (day.name === state.day) {
+        return { ...day, spots }
       }
 
       return day;
@@ -119,8 +119,8 @@ export default function useApplicationData() {
     const spots = getSpotsForDay(state.day, state.days, appointments);
 
     const days = state.days.map(day => {
-      if(day.name === state.day) {
-        return {...day, spots}
+      if (day.name === state.day) {
+        return { ...day, spots }
       }
 
       return day;

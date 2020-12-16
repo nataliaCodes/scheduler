@@ -2,11 +2,11 @@ describe("Appointments", () => {
 
   beforeEach(() => {
     cy.request("GET", "/api/debug/reset");
-  
+
     cy.visit("/");
-  
+
     cy.contains("Monday");
-   });
+  });
 
   it("should book an interview", () => {
 
@@ -77,7 +77,7 @@ describe("Appointments", () => {
     // Confirm that the 'Deleting' status shows up then disappears
     cy.contains('Deleting').should('exist');
     cy.contains('Deleting').should('not.exist');
-  
+
     // Sees that the appointment slot is empty
     cy.contains('Archie Cohen')
       .should('not.exist');

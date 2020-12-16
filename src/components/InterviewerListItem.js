@@ -4,7 +4,7 @@ var classNames = require('classnames');
 
 export default function InterviewerListItem(props) {
 
-  const { name, avatar, selected} = props
+  const { name, avatar, selected } = props
 
   const interviewersClass = classNames("interviewers__item", {
     //the value needs to be true for the class to be applied

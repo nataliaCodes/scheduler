@@ -221,10 +221,10 @@ describe("Application", () => {
 
     // 7. Wait until the element with the text "Error" is displayed
     await waitForElement(() => getByText(appointment, "Error"));
-    
+
     // 8. Click on "Close" button
     fireEvent.click(getByAltText(appointment, "Close"));
-    
+
     // 9. Expect the appointment to still be displayed on the page
     expect(getByText(appointment, "Archie Cohen")).toBeInTheDocument();
 

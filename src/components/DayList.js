@@ -11,6 +11,6 @@ export default function DayList(props) {
   }) : "There is no data here"
 
   return <ul>
-    { daysList }
+    {daysList}
   </ul>
 }
