@@ -1,11 +1,11 @@
 import React from "react";
 
-import "components/Application.scss";
-
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors"
-import useApplicationData from "../hooks/useApplicationData"
+import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
+import useApplicationData from "../hooks/useApplicationData";
+
+import "components/Application.scss";
 
 export default function Application(props) {
 
@@ -20,7 +20,7 @@ export default function Application(props) {
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   //getInterview, getInterviewers -> selectors - passed as props to appointment component
-  const interviewers = getInterviewersForDay(state, state.day)
+  const interviewers = getInterviewersForDay(state, state.day);
 
   //extract appointment details to display
   const scheduleList = dailyAppointments.map(appointment => {

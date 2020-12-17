@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Header from "./Header"
-import Show from "./Show"
-import Empty from "./Empty"
-import Form from "./Form"
-import Status from "./Status"
-import Confirm from "./Confirm"
-import Error from "./Error"
-import useVisualMode from "../../hooks/useVisualMode"
-
+import Header from "./Header";
+import Show from "./Show";
+import Empty from "./Empty";
+import Form from "./Form";
+import Status from "./Status";
+import Confirm from "./Confirm";
+import Error from "./Error";
+import useVisualMode from "../../hooks/useVisualMode";
 
 import "./styles.scss";
 
@@ -57,15 +56,14 @@ function Appointment(props) {
   //passed to show view as props
   const deleteInterview = () => {
 
-    transition(CONFIRM, true)
+    transition(CONFIRM, true);
 
-    transition(DELETING, true)
+    transition(DELETING, true);
 
     props.cancelInterview(props.id)
       .then(() => transition(EMPTY))
       .catch(error => {
         transition(ERROR_DELETE, true)
-
       })
   }
 

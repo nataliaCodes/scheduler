@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { render, cleanup, getByText, getAllByTestId, getByAltText, getByPlaceholderText, waitForElement, fireEvent, prettyDOM, queryByText } from "@testing-library/react";
+import { render, cleanup, getByText, getAllByTestId, getByAltText, getByPlaceholderText, waitForElement, fireEvent, queryByText } from "@testing-library/react";
 
 import Application from "components/Application";
 
@@ -10,21 +10,26 @@ afterEach(cleanup);
 describe("Application", () => {
 
   it("changes the schedule when a new day is selected", async () => {
+
+    // Render the Application
     const { getByText } = render(<Application />);
 
+    // Wait until the text "Monday" is displayed
     await waitForElement(() => getByText("Monday"));
 
+    // Click on "Tuesday"
     fireEvent.click(getByText("Tuesday"));
 
+    // Check that the day contains an appointment for "Leopold Silvers"
     expect(getByText("Leopold Silvers")).toBeInTheDocument();
   });
 
   it("loads data, books an interview and reduces the spots remaining for the first day by 1", async () => {
 
-    // Render the Application.
-    const { container, debug } = render(<Application />);
+    // Render the Application
+    const { container } = render(<Application />);
 
-    // Wait until the text "Archie Cohen" is displayed.
+    // Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
     //target appointments in the DOM nodes
@@ -47,12 +52,10 @@ describe("Application", () => {
     // Click the "Save" button
     fireEvent.click(getByText(appointment, "Save"));
 
-    // Check that the element with the text "Saving" is displayed.
-    //to make sure the test is indeed working, toBeInTheDocument can be negated
-    //which will crash the test
+    // Check that the element with the text "Saving" is displayed
     expect(getByText(appointment, "Saving...")).toBeInTheDocument();
 
-    // Wait until the element with the text "Lydia Miller-Jones" is displayed.
+    // Wait until the element with the text "Lydia Miller-Jones" is displayed
     await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
 
     //check that the student's name is displayed
@@ -60,7 +63,7 @@ describe("Application", () => {
 
     //target days in the navbar and extract Monday
     const days = getAllByTestId(container, "day");
-    const monday = days[0]
+    const monday = days[0];
 
     // Check that the DayListItem with the text "Monday" also has the text "no spots remaining"
     expect(getByText(monday, "no spots remaining")).toBeInTheDocument();
@@ -70,17 +73,18 @@ describe("Application", () => {
   it("loads data, cancels an interview and increases the spots remaining for Monday by 1", async () => {
 
     // 1. Render the Application
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 3. Click the "Delete" button on the booked appointment
 
     //target booked appointment
     const appointment = getAllByTestId(container, "appointment").find(
       appointment => queryByText(appointment, "Archie Cohen")
     );
 
-    // 3. Click the "Delete" button on the booked appointment
     fireEvent.click(getByAltText(appointment, "Delete"));
 
     // 4. Check that the CONFIRM mode shows up - "Are you sure you would like to delete?"
@@ -107,17 +111,18 @@ describe("Application", () => {
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     // 1. Render the Application
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed
     await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 3. Click the "Edit" button on the booked appointment
 
     //target booked appointment
     const appointment = getAllByTestId(container, "appointment").find(
       appointment => queryByText(appointment, "Archie Cohen")
     );
 
-    // 3. Click the "Edit" button on the booked appointment
     fireEvent.click(getByAltText(appointment, "Edit"));
 
     // 4. Check that the input is displaying the student name
@@ -154,18 +159,18 @@ describe("Application", () => {
     axios.put.mockRejectedValueOnce();
 
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
+    // 3. Click the "Add" button on the first empty appointment
+
     //target appointments in the DOM nodes
     const appointments = getAllByTestId(container, "appointment");
-
     //target first appointment = empty
     const appointment = appointments[0];
 
-    // 3. Click the "Add" button on the first empty appointment
     fireEvent.click(getByAltText(appointment, "Add"));
 
     // 4. Enter the name "Lydia Miller-Jones" into the input with the placeholder "Enter Student Name"
@@ -197,17 +202,18 @@ describe("Application", () => {
     axios.delete.mockRejectedValueOnce();
 
     // 1. Render the Application.
-    const { container, debug } = render(<Application />);
+    const { container } = render(<Application />);
 
     // 2. Wait until the text "Archie Cohen" is displayed.
     await waitForElement(() => getByText(container, "Archie Cohen"));
+
+    // 3. Click the "Edit" button on the booked appointment
 
     //target booked appointment
     const appointment = getAllByTestId(container, "appointment").find(
       appointment => queryByText(appointment, "Archie Cohen")
     );
 
-    // 3. Click the "Edit" button on the booked appointment
     fireEvent.click(getByAltText(appointment, "Delete"));
 
     // 4. Check that the CONFIRM mode shows up - "Are you sure you would like to delete?"

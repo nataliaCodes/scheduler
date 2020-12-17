@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Button from "components/Button"
-import InterviewerList from "components/InterviewerList"
+
+import Button from "components/Button";
+import InterviewerList from "components/InterviewerList";
 
 export default function Form(props) {
 
@@ -11,25 +12,25 @@ export default function Form(props) {
   const handleInput = event => {
     event.preventDefault();
     setName(event.target.value);
-  }
+  };
 
   const handleInterviewer = interviewer => {
     setInterviewer(interviewer)
-  }
+  };
 
   const reset = () => {
     setName("")
     setInterviewer(null)
-  }
+  };
 
   const cancel = () => {
     props.onCancel()
-  }
+  };
 
   const handleCancel = () => {
     reset()
     cancel()
-  }
+  };
 
   const handleSave = () => {
 
@@ -42,7 +43,7 @@ export default function Form(props) {
 
     //comes from appointment component
     props.onSave(name, interviewer)
-  }
+  };
 
   return (
     <main className="appointment__card appointment__card--create">

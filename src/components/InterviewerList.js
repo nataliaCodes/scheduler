@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from 'prop-types';
+
+import InterviewerListItem from 'components/InterviewerListItem';
+
 import "components/InterviewerList.scss";
-import InterviewerListItem from 'components/InterviewerListItem'
 
 function InterviewerList(props) {
 
@@ -18,7 +20,7 @@ function InterviewerList(props) {
         selected={props.value === interviewer.id}
       />
     )
-  })
+  });
 
   return (
     <section className="interviewers">
@@ -27,7 +29,7 @@ function InterviewerList(props) {
         {interviewersList}
       </ul>
     </section>
-  )
+  );
 }
 
 InterviewerList.propTypes = {
