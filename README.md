@@ -1,23 +1,14 @@
 # Interview Scheduler
-A single page application (SPA) built using React. It allows students to book interviews during weekdays between 12 and 5PM. Students can book, edit or cancel interviews.
-
-## Setup
-
-Install dependencies with `npm install`.
-
-  **Running Webpack Development Server:** npm start
-
-  **Running Jest Test Framework:** npm test
-
-  **Running Storybook Visual Testbed:** npm run storybook
-
-  **Running Cypress:** npm run cypress (requires web app and api servers to run)
+A single page application (SPA) built using React JS. It allows students to book interviews during weekdays between 12 and 5PM. Students can book, edit or cancel interviews.
 
 ## Functional Requirements
 
-Data is persisted by the API server using a PostgreSQL database.
-The client application communicates with an API server over HTTP, using the JSON format.
-Jest tests are used through the development of the project.
+React JS (Create React App) was used to build the client-side application. It communicates via Axios calls with an API server over HTTP, using the JSON format.
+Tests were built using the Jest, Cypress and Storybook frameworks.
+
+Data is persisted by the [API server](https://github.com/nataliaCodes/scheduler-api) using a PostgreSQL database.
+
+Both servers run concurrently; requests are proxied from the Webpack development server to the API server.
 
 ## Behavioural Requirements
 
@@ -34,15 +25,3 @@ A user is shown an error if an interview cannot be saved or deleted.
 A user is shown a status indicator while asynchronous operations are in progress.
 When the user presses the close button of the error they are returned to the Form or Show view (skipping Status and Confirm).
 The application makes API requests to load and persist data. We do not lose data after a browser refresh.
-
-## Technical Specifications
-
-React
-Webpack, Babel
-Axios
-Storybook, Webpack Dev Server, Jest, Testing Library, Cypress
-
-The Scheduler client application created using Create React App. 
-Express is the basis for the Scheduler API server application.
-
-Both servers run concurrently; requests are proxied from the Webpack development server to the API server.
